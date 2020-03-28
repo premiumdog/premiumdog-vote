@@ -1,0 +1,86 @@
+{% extends '../base.html' %}
+
+
+{% block content %}
+
+<div class="container my-5">
+  <div class="row d-flex justify-content-center">
+    <div class="col-sm-12 col-md-8 text-center">
+      <h1>Online Dog Show</h1>
+      <h6 class="lead"><strong>Egy forradalmi újdonság Magyarországon.</strong></h4>
+      <p>Nyomj a szívecskére és szavazz kedvencedre hogy ő lehessen a  Jótékonysági PremiumDog Online Dog Show Hungary 2020 győztese. 
+        Vajon ki lesz az a boldogságban úszó gazdi és kutyája aki megnyeri a versenyt?</p>
+        <h6><strong>A szavazás már elindult.</strong></h4>
+    </div>
+    <div class="my-5 text-center">
+      <div class="row">
+          <div class="col-sm-12 col-lg-4"><a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}#champion" class="btn btn-sm btn-light mb-4">TOP 3
+                  Champion kategória</a></div>
+          <div class="col-sm-12 col-lg-4"><a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}#fci" class="btn btn-sm btn-light mb-4">TOP 3
+                  FCI által nem elismert kutyafajta kategória</a></div>
+          <div class="col-sm-12 col-lg-4"> <a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}#hobby" class="btn btn-sm btn-light mb-4">TOP 3
+                  Hobby kategória</a></div>
+      </div>
+  </div>
+  </div>
+</div>
+
+
+<div class="container my-5">
+  <div class="row">
+    {% for article in page_obj%}
+    <div class="col-sm-12 col-md-6 col-lg-3 text-center">
+      <div class="card mb-5">
+        <img class="card-img-top" src="{{article.thumb.url}}" height="312" alt="Card image cap">
+        <div class="card-body">
+          <small class="category">{{article.category}}</small>
+          <h5 class="card-title mb-1">{{ article.title }}</h5>
+          <h6 class="card-owner">{{article.owner}}</h6>
+          <ul class="list-unstyled list-inlnie">
+            <li class="list-inline-item"><i class="fas fa-heart" style="color:#ed4956"></i> {{article.likes.count}}</li>
+            <li class="list-inline-item"><i class="fas fa-venus-mars"></i> {{article.gender}}</li>
+            <li class="list-inline-item"><i class="fas fa-dog"></i> #{{article.dog_number}}</li>
+          </ul>
+
+          {% if user.is_authenticated %}
+          <a href="{% url 'article_details' slug=article.slug %}" class="btn btn-light btn-block">Szavazok</a>
+          {% else %}
+          <a href="{% url 'register_url' %}" class="btn btn-light btn-block">Szavazok</a>
+
+          {% endif %}
+
+
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="container simple">
+  <div class="row">
+    <div class="col-sm-12 d-flex justify-content-center">
+      <div class="pagination">
+        <a href="?page=1">&laquo; Első</a>
+
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+
+        <a href="#" class="active">{{ page_obj.number }}</a>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% endif %}
+
+        <a href="?page={{ page_obj.paginator.num_pages }}">Utolsó &raquo;</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}

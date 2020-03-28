@@ -1,0 +1,1 @@
+web: gunicorn premiumdog_vote.wsgi

@@ -1,0 +1,189 @@
+{% load scripts %}
+<!doctype html>
+<html lang="hu">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" type="image/png" href="" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+
+  <link rel="shortcut icon" href="media/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="media/favicon.ico" type="image/x-icon">
+
+  <link rel="stylesheet" href="/static/style.css">
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <title>premiumDog - Online Dog Show Hungary 2020</title>
+
+  {% header_scripts as header_script%}
+  {{header_script.body|safe}}
+
+</head>
+
+<body>
+  <header>
+    <div class="container-fluid navbar-bg fixed-top">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <button class="navbar-toggler mx-auto" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav-fill w-100">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Kezdőlap</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'join' %}">Nevezés</a>
+              </li>
+             
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'article_list' %}">Online Dog Show</a>
+              </li>
+             
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'article_top_list' %}">Toplisták</a>
+              </li>
+             
+              {% if user.is_authenticated %}
+
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link border-left pl-2" href="{% url 'login' %}">Bejelentkezés</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'register_url' %}">Szavazok</a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+ 
+
+  <main>
+    <div class="container my-5">
+      <div class="row">
+        <div class="col-sm-12">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{message.tags}} alert-dismissible fade show mt-5" role="alert">{{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+          {% endif %}
+          {% block content %}
+          
+          {% endblock%}
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+
+  <footer>
+    <div class="container-fluid bg-white text-center py-3">
+      <div class="row">
+        <div class="col-sm-12">
+          premiumdog.hu © 2019 Minden jog fenntartva. | <a href="{% url 'gdpr' %}">Adatvédelmi nyilatkozat</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS 
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js">
+  </script>
+
+  <script src="https://cdn.datatables.net/plug-ins/1.10.20/i18n/Hungarian.json"></script>
+
+  
+  {% footer_scripts as footer_script%}
+  {{footer_script.body | safe}}
+
+  <script>
+    $(document).ready(function () {
+      $('#topTable').DataTable({
+        "language": {
+          "sEmptyTable": "Nincs rendelkezésre álló adat",
+          "sInfo": "Találatok: _START_ - _END_ Összesen: _TOTAL_",
+          "sInfoEmpty": "Nulla találat",
+          "sInfoFiltered": "(_MAX_ összes rekord közül szűrve)",
+          "sInfoPostFix": "",
+          "sInfoThousands": " ",
+          "sLengthMenu": "_MENU_ találat oldalanként",
+          "sLoadingRecords": "Betöltés...",
+          "sProcessing": "Feldolgozás...",
+          "sSearch": "Keresés:",
+          "sZeroRecords": "Nincs a keresésnek megfelelő találat",
+          "oPaginate": {
+            "sFirst": "Első",
+            "sPrevious": "Előző",
+            "sNext": "Következő",
+            "sLast": "Utolsó"
+          },
+          "oAria": {
+            "sSortAscending": ": aktiválja a növekvő rendezéshez",
+            "sSortDescending": ": aktiválja a csökkenő rendezéshez"
+          },
+          "select": {
+            "rows": {
+              "_": "%d sor kiválasztva",
+              "0": "",
+              "1": "1 sor kiválasztva"
+            }
+          },
+          "buttons": {
+            "print": "Nyomtatás",
+            "colvis": "Oszlopok",
+            "copy": "Másolás",
+            "copyTitle": "Vágólapra másolás",
+            "copySuccess": {
+              "_": "%d sor másolva",
+              "1": "1 sor másolva"
+            }
+          }
+        }
+      });
+
+    });
+
+    $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+      event.preventDefault();
+      $(this).ekkoLightbox();
+    });
+  </script>
+
+</body>
+
+</html>

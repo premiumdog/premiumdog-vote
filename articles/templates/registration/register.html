@@ -1,0 +1,40 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container-fluid my-5">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-12 col-md-6">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Regisztráció</h2>
+                        <form action="{% url 'register_url' %}" method="POST">
+                            {% csrf_token %}
+
+                            {{form|crispy}}
+
+                            {{form.errors}}
+                            <div class="form-check my-2">
+                                <input class="form-check-input" type="checkbox" value="" required id="gdpr">
+                                <label class="form-check-label" for="gdpr">
+                                  Elolvastam és elfogadom az <a href="{% url 'gdpr' %}">adatvédelmi nyilatkozatot!</a>
+                                </label>
+                              </div>
+                            <button class="btn btn-light btn-block">Regisztráció</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}

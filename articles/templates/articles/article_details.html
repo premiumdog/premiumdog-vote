@@ -1,0 +1,231 @@
+{% load scripts %}
+<!doctype html>
+<html lang="hu">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" type="image/png" href="" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+
+  <link rel="shortcut icon" href="media/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="media/favicon.ico" type="image/x-icon">
+
+  <link rel="stylesheet" href="/static/style.css">
+
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <meta property="og:url" content="{{request.build_absolute_uri}}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{article.title}} - Szavazz rám!" />
+  <meta property="og:description" content="Szavazz rám a Jótékonysági PremiumDog Online Dog Show Hungary 2020 versenyen!" />
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{{article.thumb.url}}" />
+
+  <title>{{article.title}} - premiumDog</title>
+
+  {% header_scripts as header_script%}
+  {{header_script.body|safe}}
+
+</head>
+
+<div id="fb-root"></div>
+<script>
+  (function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/hu_HU/sdk.js#xfbml=1&version=v3.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<body>
+  <header>
+    <div class="container-fluid navbar-bg fixed-top">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <button class="navbar-toggler mx-auto" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav-fill w-100">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Kezdőlap</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'join' %}">Nevezés</a>
+              </li>
+             
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'article_list' %}">Online Dog Show</a>
+              </li>
+            
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'article_top_list' %}">Toplista</a>
+              </li>
+             
+              {% if user.is_authenticated %}
+
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link border-left pl-2" href="{% url 'login' %}">Bejelentkezés</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'register_url' %}">Regisztráció</a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container my-5">
+      <div class="row">
+        <div class="col-sm-12">
+
+
+          <div class="container text-center my-5">
+            <div class="row">
+              <div class="col-sm-12">
+                <h3><strong>{{article.category}}</strong></h3>
+                <h5>{{ article.group}}</h5>
+                <h1 class="display-2 mb-3">{{article.title}}</h1>
+                
+                <ul class="list-unstyled list-inlnie list-lg">
+                  <li class="list-inline-item"><i class="fas fa-heart" style="color:#ed4956"></i>
+                    {{article.likes.count}}</li>
+                  <li class="list-inline-item"><i class="fas fa-venus-mars"></i> {{article.gender}}</li>
+                  <li class="list-inline-item"><i class="fas fa-dog"></i> #{{article.dog_number}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="container my-5">
+            <div class="row">
+
+              {% for x in gallery %}
+              <div class="col-4">
+                <a href="{{ x.img.url }}" data-toggle="lightbox" data-gallery="example-gallery">
+                  <img class="w-100" src="{{x.img.url}}" class="lightbox-item" alt="">
+                </a>
+              </div>
+              {% endfor %}
+
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="row d-flex justify-content-center">
+              <div class="col-sm-12 col-md-8">
+                <h2 class="card-owner h1 text-center">{{article.owner}}</h6>
+                <p class="lead text-center">Oszd meg kedvencedet barátaiddal, kampányolj, gyűjts minél több szavazatot és nyerd meg a 
+                  Jótékonysági PremiumDog Online Dog Show Hungary 2020 értékes nyereményei egyikét.
+                  Közönségszavazás mellet szakmai díjat is kiosztunk. </p>
+              </div>
+
+              <div class="col-12 fb-share-button text-center" data-href="{{request.build_absolute_uri}}" data-size="large"
+                data-layout="button_count">
+              </div>
+
+            </div>
+          </div>
+
+          {% if user.is_authenticated %}
+          <div class="container text-center my-5">
+            <div class="row">
+              <div class="col-sm-12">
+                {% if is_liked %}
+                <h5 class="text-warning">Ön már szavazott erre a kutyusra!</h5>
+
+                {% else %}
+                <form action="{% url 'like_article' %}" method="POST">
+                  {%csrf_token%}
+                  <button type="submit" name="teszt" class="btn btn-lg btn-light" value="{{ article.id }}"><i
+                      class="fas fa-heart" style="color:#ed4956"></i> Szavazok - ({{total_likes}}
+                    szavazat)</button>
+                </form>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div class="container text-center my-5">
+            <div class="row">
+              <div class="col-sm-12">
+                <a href="{% url 'register_url' %}" class="btn btn-lg btn-light">Szavazok</a>
+                <h6 class="mt-3"><strong>A szavazás regisztrációhoz kötött. A regisztráció ingyenes.</strong></h4>
+              </div>
+            </div>
+          </div>
+
+
+          {% endif %}
+
+
+          <div class="container my-5">
+            <div class="row d-flex justify-content-center">
+              <div class="col-sm-12 col-md-8">
+                <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-width="100%"
+                  data-numposts="5">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <footer>
+    <div class="container-fluid bg-white text-center py-3">
+      <div class="row">
+        <div class="col-sm-12">
+          premiumdog.hu © 2019 Minden jog fenntartva. | <a href="{% url 'gdpr' %}">Adatvédelmi nyilatkozat</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS 
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+
+
+
+  {% footer_scripts as footer_script%}
+  {{footer_script.body | safe}}
+
+  <script>
+    $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+      event.preventDefault();
+      $(this).ekkoLightbox();
+    });
+  </script>
+
+</body>
+
+</html>

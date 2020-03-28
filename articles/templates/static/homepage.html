@@ -1,0 +1,192 @@
+{% extends '../base.html' %}
+{% block content %}
+
+
+
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-sm-12 col-md-8 text-center">
+            <img src="/media/logo.png" width="250" class="img-fluid" alt="">
+            <h1 class="my-3">Jótékonysági PremiumDog Online Dog Show Hungary 2020</h1>
+            <p>Most életeket menthetsz.
+                SEGÍTSÜNK azokon akik ránk vannak utalva, támogassuk együtt a rászoruló kutyamenhelyeket!
+                A jelen időszak a legalkalmasabb hogy összefogással gondoskodjunk róluk ebben a válságos helyzetben.
+                Nevezzetek champion vagy hobby kategóriában és a Jótékonysági PremiumDog Online Dog Show Hungary 2020
+                teljes bevétele felajánlásra kerül!
+                Elismert kutyatenyésztők, felelősségteljes gazdik, mindenki egy helyen.
+
+            </p>
+
+            <h4><strong>A nevezés már elindult.</strong></h4>
+
+            <span class="text-center"><strong>Eddig összegyűlt bevétel a nevezési díjakból.</strong></span>
+            <div class="progress mb-1 mt-3">
+                <div class="progress-bar" role="progressbar" style="{{donation.percent}}" aria-valuenow="25"
+                    aria-valuemin="0" aria-valuemax="{{donation.max_amount}}">{{donation.amount}} Ft</div>
+
+
+            </div>
+            <small class="text-center">A teljes összeget naponta frissítjük.</small>
+            <div class="my-5 text-center">
+                <a href="{% url 'join' %}" class="btn btn-lg btn-light">Nevezés <i class="fas fa-heart"
+                        style="color:#ed4956"></i></a>
+            </div>
+            <div class="my-5 text-center">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-4"><a href="#champion" class="btn btn-sm btn-light mb-4">TOP 3
+                            Champion kategória</a></div>
+                    <div class="col-sm-12 col-lg-4"><a href="#fci" class="btn btn-sm btn-light mb-4">TOP 3
+                            FCI által nem elismert kutyafajta kategória</a></div>
+                    <div class="col-sm-12 col-lg-4"> <a href="#hobby" class="btn btn-sm btn-light mb-4">TOP 3
+                            Hobby kategória</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="champion">
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-sm-12 col-md-8 text-center">
+            <h2 class="my-3">TOP 3 Champion kategória</h2>
+            <p>Itt láthatjátok a listavezetőket. Az eredmények a szavazatok alapján automatikusan
+                frissülnek. Szavazzatok kedvencetekre, amíg tart a verseny.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row d-flex justify-content-center">
+        {% for article in articles%}
+        <div class="col-sm-12 col-md-6 col-lg-3 text-center">
+            <div class="card mb-5">
+                <img class="card-img-top" src="{{article.thumb.url}}" height="312" alt="Card image cap">
+                <div class="card-body">
+                    <small class="category">{{article.category}}</small>
+                    <h5 class="card-title mb-1">{{ article.title }}</h5>
+                    <h6 class="card-owner">{{article.owner}}</h6>
+                    <ul class="list-unstyled list-inlnie">
+                        <li class="list-inline-item"><i class="fas fa-heart" style="color:#ed4956"></i>
+                            {{article.likes.count}}</li>
+                        <li class="list-inline-item"><i class="fas fa-venus-mars"></i> {{article.gender}}</li>
+                        <li class="list-inline-item"><i class="fas fa-dog"></i> #{{article.dog_number}}</li>
+                    </ul>
+
+                    {% if user.is_authenticated %}
+
+                    <a href="{% url 'article_details' slug=article.slug %}" class="btn btn-light btn-block">Szavazok</a>
+
+                    {% else %}
+                    <a href="{% url 'register_url' %}" class="btn btn-light btn-block">Szavazok</a>
+
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</section>
+
+
+<section id="fci">
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-sm-12 col-md-8 text-center">
+            <h2 class="my-3">TOP 3 FCI által nem elismert kutyafajta kategória</h2>
+            <p>Itt láthatjátok a listavezetőket. Az eredmények a szavazatok alapján automatikusan
+                frissülnek. Szavazzatok kedvencetekre, amíg tart a verseny.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row d-flex justify-content-center">
+        {% for article in articles_not_fci%}
+        <div class="col-sm-12 col-md-6 col-lg-3 text-center">
+            <div class="card mb-5">
+                <img class="card-img-top" src="{{article.thumb.url}}" height="312" alt="Card image cap">
+                <div class="card-body">
+                    <small class="category">{{article.category}}</small>
+                    <h5 class="card-title mb-1">{{ article.title }}</h5>
+                    <h6 class="card-owner">{{article.owner}}</h6>
+                    <ul class="list-unstyled list-inlnie">
+                        <li class="list-inline-item"><i class="fas fa-heart" style="color:#ed4956"></i>
+                            {{article.likes.count}}</li>
+                        <li class="list-inline-item"><i class="fas fa-venus-mars"></i> {{article.gender}}</li>
+                        <li class="list-inline-item"><i class="fas fa-dog"></i> #{{article.dog_number}}</li>
+                    </ul>
+
+                    {% if user.is_authenticated %}
+
+                    <a href="{% url 'article_details' slug=article.slug %}" class="btn btn-light btn-block">Szavazok</a>
+
+                    {% else %}
+                    <a href="{% url 'register_url' %}" class="btn btn-light btn-block">Szavazok</a>
+
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</section>
+
+
+<section id="hobby">
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-sm-12 col-md-8 text-center">
+            <h2 class="my-3">TOP 3 Hobby kategória</h2>
+            <p>Itt láthatjátok a listavezetőket. Az eredmények a szavazatok alapján automatikusan
+                frissülnek. Szavazzatok kedvencetekre, amíg tart a verseny.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row d-flex justify-content-center">
+        {% for article in articles_hobby%}
+        <div class="col-sm-12 col-md-6 col-lg-3 text-center">
+            <div class="card mb-5">
+                <img class="card-img-top" src="{{article.thumb.url}}" height="312" alt="Card image cap">
+                <div class="card-body">
+                    <small class="category">{{article.category}}</small>
+                    <h5 class="card-title mb-1">{{ article.title }}</h5>
+                    <h6 class="card-owner">{{article.owner}}</h6>
+                    <ul class="list-unstyled list-inlnie">
+                        <li class="list-inline-item"><i class="fas fa-heart" style="color:#ed4956"></i>
+                            {{article.likes.count}}</li>
+                        <li class="list-inline-item"><i class="fas fa-venus-mars"></i> {{article.gender}}</li>
+                        <li class="list-inline-item"><i class="fas fa-dog"></i> #{{article.dog_number}}</li>
+                    </ul>
+
+                    {% if user.is_authenticated %}
+
+                    <a href="{% url 'article_details' slug=article.slug %}" class="btn btn-light btn-block">Szavazok</a>
+
+                    {% else %}
+                    <a href="{% url 'register_url' %}" class="btn btn-light btn-block">Szavazok</a>
+
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</section>
+
+
+{% endblock %}

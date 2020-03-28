@@ -1,0 +1,103 @@
+{% extends '../base.html' %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-sm-12 col-md-8 text-center">
+            <h1 class="display-2">Hogyan szavazhatsz?</h1>
+            <p class="lead">Megmutatjuk, hogyan tudsz szavazni kedvencedre. Egyszerűbben már nem is lehetne
+                regisztrálni.</p>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-sm-12 col-lg-4">
+            <div class="card mb-5 py-5">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="number d-flex align-items-center justify-content-center">
+                            <span><i class="fas fa-archive fa-2x" style="color:#82C926"></i></span>
+                        </div>
+
+                    </div>
+                    <div class="text-center mt-3">
+                        <h3>Regisztráció</h3>
+                    </div>
+
+                    <div class="mt-3 px-5 text-center">
+                        <p>Vedd kezedbe a telefonod és ehhez pedig nem kell mást tenned mint megadni a
+                            neved, az e-mail cimed és szavazni.</p>
+                    </div>
+                    {% if user.is_authenticated %}
+
+                    <div class="px-5 mt-5">
+                        <a href="#" class="btn btn-light btn-block">Már regisztrált</a>
+                    </div>
+
+                    {% else %}
+
+                    <div class="px-5 mt-5">
+                        <a href="{% url 'register_url' %}" class="btn btn-light btn-block">Regisztráció</a>
+                    </div>
+
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-lg-4">
+            <div class="card mb-5 py-5">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="number d-flex align-items-center justify-content-center">
+                            <span><i class="fas fa-heart fa-2x" style="color:#ed4956"></i></span>
+                        </div>
+
+                    </div>
+                    <div class="text-center mt-3">
+                        <h3>Szavazás</h3>
+                    </div>
+
+                    <div class="mt-3 px-5 text-center">
+                        <p>Nyomj a szívecskére és szavazz kedvencedre hogy ő lehessen a Jótékonysági
+                            PremiumDog Online Dog Show Hungary 2020 győztese.</p>
+                    </div>
+                    <div class="px-5 mt-5">
+                        <a href="{% url 'article_list' %}" class="btn btn-light btn-block">Szavazás</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-lg-4">
+            <div class="card mb-5 py-5">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="number d-flex align-items-center justify-content-center">
+                            <span><i class="fab fa-facebook-f fa-2x" style="color:#207dff"></i></span>
+                        </div>
+
+                    </div>
+                    <div class="text-center mt-3">
+                        <h3>Faceboob kedvelés</h3>
+                    </div>
+
+                    <div class="mt-3 px-5 text-center">
+                        <p>Lájkold és kövesd a premiumDog.hu hivatalos Facebook oldalát. Legújabb hírek,
+                            aktuális eredmények és a legszebb kutyák Magyarországon.
+                        </p>
+                    </div>
+                    <div class="px-5 mt-5">
+                        <a href="https://www.facebook.com/premiumDog.hu/" class="btn btn-light btn-block">Facebook
+                            oldal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

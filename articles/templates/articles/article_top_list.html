@@ -1,0 +1,53 @@
+{% extends '../base.html' %}
+
+
+{% block content %}
+
+<div class="container my-5">
+    <div class="row d-flex justify-content-center">
+      <div class="col-sm-12 col-md-8 text-center">
+        <small>Aktuálisan frissített</small>
+        <h1>Toplisták</h1>
+        <p>A Jótékonysági PremiumDog Online Dog Show Hungary 2020 legfrissebb eredményei.</p>
+          {% if not user.is_authenticated %}
+            <a href="{% url 'register_url' %}" class="btn btn-light mr-3">Szavazok</a>
+            <a href="{% url 'login' %}" class="btn btn-light">Bejelentkezés</a>
+            {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-5">
+      <div class="row">
+          <div class="col-sm-12">
+            <table id="topTable" class="table display table-striped">
+                <thead>
+                    <tr>
+                      <th>Szavazatok száma</th>
+                        <th>Sorszám</th>
+                        <th>Név</th>
+                        <th>Fajta</th>
+                        <th>Kategória</th>
+                        <th>Művelet</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles%}
+                    <tr>
+                      <td><i class="fas fa-heart" style="color:#ed4956"></i> {{article.likes.count}}</td>
+                        <td>{{article.dog_number}}</td>
+                        <td>{{article.title}}</td>
+                        <td>{{article.category}}</td>
+                        <td>{{article.group}}</td>
+                        <td><a href="{% url 'article_details' slug=article.slug %}">Megtekintés</a></td>
+                       
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+          </div>
+      </div>
+  </div>
+
+  
+{% endblock %}
